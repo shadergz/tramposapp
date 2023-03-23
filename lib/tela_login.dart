@@ -11,36 +11,37 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
   // ignore: unused_field
-  String _username = '', _password = '';
+  String _dadoUsername = '', _dadoSenha = '';
 
-  Widget _buildUsername() {
+  Widget _campoUsername() {
     return TextFormField(
       decoration: const InputDecoration(labelText: 'Username'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Username is required';
+          return 'O campo Username é necessário';
         }
         return null;
       },
       onSaved: (String? value) {
-        _username = value!;
+        _dadoUsername = value!;
       },
     );
   }
 
-  Widget _buildPassword() {
+  Widget _campoSenha() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Password'),
+      decoration: const InputDecoration(labelText: 'Senha'),
       obscureText: true,
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Password is required';
+          return 'O campo Senha é necessário';
         }
         return null;
       },
       onSaved: (String? value) {
-        _password = value!;
+        _dadoSenha = value!;
       },
     );
   }
@@ -57,13 +58,13 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text(
-                  'Login',
+                  'Logar',
                   style: TextStyle(fontSize: 30.0),
                 ),
                 const SizedBox(height: 30.0),
-                _buildUsername(),
+                _campoUsername(),
                 const SizedBox(height: 20.0),
-                _buildPassword(),
+                _campoSenha(),
                 const SizedBox(height: 50.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                         foregroundColor: Colors.white, backgroundColor: Colors.blue,
                       ),
                       child: const Text(
-                        'Login',
+                        'Logar',
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
           
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                       child: const Text(
-                        'Register',
+                        'Registrar-se',
                         style: TextStyle(color: Colors.white, fontSize: 20.0),
                       ),
                     ),
@@ -105,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20.0),
                 const Text(
-                  'Or sign in using:',
+                  'Ou faça o cadastro com:',
                   style: TextStyle(fontSize: 16.0),
                 ),
                 const SizedBox(height: 10.0),

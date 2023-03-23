@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'usuarios_db.dart' as banco_dados;
+import 'clientes.dart' as clientes;
+import 'usuario.dart' as usuario;
+
 import 'tela_criarperfil.dart' as criar;
 
 class RegistrationPage extends StatefulWidget {
@@ -12,82 +14,83 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String _username = '', _firstName = '', _lastName = '', _occupation = '', _email = '', _password = '';
-  int _age = 0;
+  String dadoUsername = '', _dadoPrimeiroNome = '', _dadoUltimoNome = '', _dadoOcupacao = '', _dadoEmail = '', _dadoSenha = '';
+  int _dadoIdade = 0;
 
-  // Criando uma nova referência ao nosso banco de dados
-  final usuarios = banco_dados.DatabaseHelper.instance;
+  // Criando uma nova referência ao nosso banco de clientes
+  final clientesSistema = clientes.Clientes.instance;
+  final List<String> ocupacoes = usuario.TrampoUsuario.ocupacoesProfissionais;
 
-  Widget _buildUsername() {
+  // Os widgets abaixo criam todos os campos necessários na tela de Login
+  Widget _addCampoUsername() {
     return TextFormField(
       decoration: const InputDecoration(labelText: 'Username'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Username is required';
+          return 'Campo Username é necessário';
         }
         return null;
       },
       onSaved: (String? value) {
-        _username = value!;
+        dadoUsername = value!;
       },
     );
   }
 
-  Widget _buildFirstName() {
+  Widget _addCampoPrimeiroNome() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'First Name'),
+      decoration: const InputDecoration(labelText: 'Primeiro Nome'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'First Name is required';
+          return 'Campo Primeiro Nome é necessário';
         }
         return null;
       },
       onSaved: (String? value) {
-        _firstName = value!;
+        _dadoPrimeiroNome = value!;
       },
     );
   }
 
-  Widget _buildLastName() {
+  Widget _addCampoUltimoNome() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Last Name'),
+      decoration: const InputDecoration(labelText: 'Último Nome'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Last Name is required';
+          return 'Campo Último Nome é necessário';
         }
         return null;
       },
       onSaved: (String? value) {
-        _lastName = value!;
+        _dadoUltimoNome = value!;
       },
     );
   }
 
-  Widget _buildAge() {
+  Widget _addCampoIdade() {
     return TextFormField(
       keyboardType: TextInputType.number,
-      decoration: const InputDecoration(labelText: 'Age'),
+      decoration: const InputDecoration(labelText: 'Idade'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Age is required';
+          return 'Campo Idade é necessário';
         }
         if (int.tryParse(value) == null) {
-          return 'Please enter a valid age';
+          return 'Por favor digite uma idade válida';
         }
         return null;
       },
       onSaved: (String? value) {
-        _age = int.parse(value!);
+        _dadoIdade = int.parse(value!);
       },
     );
   }
 
-  Widget _buildOccupation() {
+  Widget _addCampoOcupacao() {
     return DropdownButtonFormField<String>(
-      value: _occupation,
-      decoration: const InputDecoration(labelText: 'Occupation'),
-      items: <String>['IT', 'Professor', 'Doctor', 'Other']
-          .map<DropdownMenuItem<String>>((String value) {
+      value: _dadoOcupacao,
+      decoration: const InputDecoration(labelText: 'Ocupação'),
+      items: ocupacoes.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
@@ -95,50 +98,50 @@ class _RegistrationPageState extends State<RegistrationPage> {
       }).toList(),
       onChanged: (String? value) {
         setState(() {
-          _occupation = value!;
+          _dadoOcupacao = value!;
         });
       },
       onSaved: (String? value) {
-        _occupation = value!;
+        _dadoOcupacao = value!;
       },
     );
   }
 
-  Widget _buildEmail() {
+  Widget _addCampoEmail() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(labelText: 'Email'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Email is required';
+          return 'Campo E-mail é necessário';
         }
         if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-          return 'Please enter a valid email';
+          return 'Por favor digite um e-mail válido';
         }
         return null;
       },
       onSaved: (String? value) {
-        _email = value!;
+        _dadoEmail = value!;
       },
     );
   }
 
-  Widget _buildPassword() {
+  Widget _addCampoSenha() {
     return TextFormField(
       obscureText: true,
-      decoration: const InputDecoration(labelText: 'Password'),
+      decoration: const InputDecoration(labelText: 'Senha'),
       validator: (String? value) {
         if (value!.isEmpty) {
-          return 'Password is required';
+          return 'Campo Senha é necessário';
         }
         if (value.length < 8) {
-          return 'Password must be at least 8 characters';
+          return 'A senha deve possuir no mínimo 8 caracteres';
         }
         // Deve ser nulo pois as regras da senha estão corretas
         return null;
       },
       onSaved: (String? value) {
-        _password = value!;
+        _dadoSenha = value!;
       },
     );
   }
@@ -147,7 +150,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registration'),
+        title: const Text('Novo Usuário'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -158,37 +161,38 @@ class _RegistrationPageState extends State<RegistrationPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _buildUsername(),
-                _buildFirstName(),
-                _buildLastName(),
-                _buildAge(),
-                _buildOccupation(),
-                _buildEmail(),
-                _buildPassword(),
+
+                // Adiciona todos os campos necessários na interface (Tela)
+                _addCampoUsername(),
+                _addCampoPrimeiroNome(),
+                _addCampoUltimoNome(),
+                _addCampoIdade(),
+                _addCampoOcupacao(),
+                _addCampoEmail(),
+                _addCampoSenha(),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  child: const Text('Register'),
+                  child: const Text('Registrar'),
                   onPressed: () {
                     if (!_formKey.currentState!.validate()) {
                       return;
                     }
                     _formKey.currentState!.save();
-                    
-                    // Salva as informações fornecidas pelo o usuário e as gravam dentro do nosso banco de dados
-                    Map<String, dynamic> dadosCadastrais = {
-                      banco_dados.DatabaseHelper.columnUsername: _username,
-                      banco_dados.DatabaseHelper.columnFirstName: _firstName,
-                      banco_dados.DatabaseHelper.columnLastName: _lastName,
-                      banco_dados.DatabaseHelper.columnAge: _age,
-                      banco_dados.DatabaseHelper.columnOccupation: _occupation,
-                      banco_dados.DatabaseHelper.columnEmail: _email,
-                      banco_dados.DatabaseHelper.columnPassword: _password
-                    };
-                    // Inserindo as informações do usuário dentro do banco de dados
-                    usuarios.insert(dadosCadastrais);
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const criar.ProfileEditingScreen()),
-                    );   
+                    // Salvando as informações fornecidas pelo novo usuário
+                    // Inserindo as informações do usuário dentro do banco de usuarios
 
+                    clientesSistema.cadastrarUsuario(
+                        "$dadoUsername; "
+                        "$_dadoPrimeiroNome; "
+                        "$_dadoUltimoNome; "
+                        "$_dadoOcupacao; "
+                        "$_dadoEmail; "
+                        "$_dadoSenha; "
+                        "$_dadoIdade ");
+
+                    // Levando o usuário à tela de edição do perfil!
+                    // Está função descarta todas as outras interfaces (telas)
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const criar.ProfileEditingScreen()), );   
                   },
                 ),
               ],

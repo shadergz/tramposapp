@@ -7,7 +7,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Results'),
+        title: const Text('Resultados da Busca'),
       ),
       body: ListView.builder(
         itemCount: 5,
@@ -16,8 +16,8 @@ class SearchScreen extends StatelessWidget {
             leading: const CircleAvatar(
               child: Icon(Icons.person),
             ),
-            title: Text('Search Result ${index + 1}'),
-            subtitle: Text('Occupation ${index + 1}'),
+            title: Text('Encontrado: ${index + 1}'),
+            subtitle: Text('Ocupação: ${index + 1}'),
           );
         },
       ),

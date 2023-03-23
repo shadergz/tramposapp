@@ -14,21 +14,21 @@ class MainScreen extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.exit_to_app),
-              title: const Text('Exit'),
+              title: const Text('Sair'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
+              title: const Text('Configurações'),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text('Profile'),
+              title: const Text('Perfil'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -39,7 +39,8 @@ class MainScreen extends StatelessWidget {
     );
   }
 
-Color getPriceColor(int price) {
+// Colore o campo do valor, caso ele respeite as regras abaixo
+Color pegarCorValor(int price) {
   if (price < 100) {
     return Colors.green;
   } else if (price < 150) {
@@ -53,7 +54,7 @@ Color getPriceColor(int price) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main Screen'),
+        title: const Text('TramposOn'),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -68,7 +69,7 @@ Color getPriceColor(int price) {
           const SizedBox(height: 10),
           TextField(
             decoration: const InputDecoration(
-              hintText: 'Search',
+              hintText: 'Pesquisar',
               border: OutlineInputBorder(),
             ),
             onTap: () {
@@ -90,12 +91,12 @@ Color getPriceColor(int price) {
                     leading: const CircleAvatar(
                       child: Icon(Icons.person),
                     ),
-                    title: Text('User ${index + 1}'),
-                    subtitle: Text('Occupation ${index + 1}'),
+                    title: Text('Trabalhador ${index + 1}'),
+                    subtitle: Text('Ocupação ${index + 1}'),
                     trailing: Text(
-                      '\$${(index + 1) * 10}',
+                      'R\$ ${(index + 1) * 10}',
                       style: TextStyle(
-                        color: getPriceColor((index + 1) * 10),
+                        color: pegarCorValor((index + 1) * 10),
                       ),
                     ),
                   ),

@@ -1,13 +1,10 @@
-/*
-Prompt: The first field should be corner radios with a profile photo of the user, what when his click on the profile photo it lead to his gallery app to select a photo, by default the program will use a default profile photo from the app! Bellow a field with the name of the user, you can use "Gabriel Correia", bellow another a big field where the user can write a short biography of him self with 180 characters long, bellow a section with two date pickers, this section is called "Availability" where the user you provide two dates, for example from "7:00AM" to "1:00PM"; Bellow outside this section, a list of pickable tags that the user can added to his "Soft-skill" field, this tags should be have a droppable animation, the user will press in the tag and move to the user soft skills field and with capabilities of change the order of each skill by its desires, bellow this a adjustable scrowable bar of his desired price, from 50 to 200 BRL (brazilian currency), and at the final a green button called "Continue"
-*/
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'tela_principal.dart';
+import 'usuario.dart' as usuario;
 
 class ProfileEditingScreen extends StatefulWidget {
   const ProfileEditingScreen({super.key});
@@ -19,49 +16,39 @@ class ProfileEditingScreen extends StatefulWidget {
 
 class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
   // ignore: unused_field
-  File? _image;
+  File? _imagemSele;
   final picker = ImagePicker();
 
-  Future getImage() async {
+  Future pegarImagem() async {
 
   }
 
   // ignore: unused_field
-  late String _name;
+  late String _dadoNome;
   // ignore: unused_field
-  late String _bio;
+  late String _dadoBio;
   // ignore: unused_field
-  late DateTime _startDate;
+  late DateTime _dadoInicio;
   // ignore: unused_field
-  late DateTime _endDate;
-  late double _desiredPrice;
-  late final List<String> _softSkills = [
-    'Team player',
-    'Effective communicator',
-    'Problem solver',
-    'Adaptable',
-    'Fast learner',
-    'Organized',
-    'Creative',
-    'Detail-oriented',
-    'Leadership skills',
-    'Time management',
-  ];
+  late DateTime _dadoFim;
+  late double _valorDesejado;
+  
+  final Map<usuario.SoftSkills, String> usuarioHabi = usuario.TrampoUsuario.habilidades;
   // ignore: unused_field
-  late final List<String> _selectedSkills = [];
+  late final List<String> _habiSelecionadas = [];
 
   @override
   void initState() {
     super.initState();
-    _image = null;
-    _name = 'Gabriel Correia';
-    _bio = '';
-    _startDate = DateTime.now();
-    _endDate = DateTime.now();
-    _desiredPrice = 100;
+    _imagemSele = null;
+    _dadoNome = 'Gabriel Correia';
+    _dadoBio = '';
+    _dadoInicio = DateTime.now();
+    _dadoFim = DateTime.now();
+    _valorDesejado = 100;
   }
 
-  Widget _buildTagItem(String tag, int index) {
+  Widget _buildTagItem(usuario.SoftSkills tag, int index) {
   return Draggable(
     data: index,
     feedback: Container(
@@ -71,7 +58,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Text(
-        tag,
+        usuarioHabi[tag]!,
         style: const TextStyle(fontSize: 16.0),
       ),
     ),
@@ -83,7 +70,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       child: Text(
-        tag,
+        usuarioHabi[tag]!,
         style: const TextStyle(fontSize: 16.0),
       ),
     ),
@@ -94,7 +81,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text('Edição de Perfil'),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -103,7 +90,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InkWell(
-                onTap: getImage,
+                onTap: pegarImagem,
                 child: Container(
                   height: 100.0,
                   width: 100.0,
@@ -130,7 +117,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                 child: const TextField(
                   maxLength: 180,
                   decoration: InputDecoration(
-                    hintText: 'Write a short bio about yourself...',
+                    hintText: 'Escreva uma pequena biografia sobre você...',
                     border: OutlineInputBorder(),
                   ),
                 ),
@@ -142,7 +129,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                   Column(
                     children: [
                       const Text(
-                        'From',
+                        'De',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -165,7 +152,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                   Column(
                     children: [
                       const Text(
-                        'To',
+                        'Até',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -189,7 +176,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               ),
               const SizedBox(height: 32.0),
               const Text(
-                'Soft Skills',
+                'Habilidades Sociais',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8.0),
@@ -202,16 +189,15 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                       spacing: 8.0,
                       runSpacing: 8.0,
                       children: [
-                        _buildTagItem('Communication', 0),
-                        _buildTagItem('Teamwork', 1),
-                        _buildTagItem('Leadership', 2),
-                        _buildTagItem('Problem-solving', 3),
-                        _buildTagItem('Time management', 4),
-                        _buildTagItem('Adaptability', 5),
-                        _buildTagItem('Creativity', 6),
-                        _buildTagItem('Conflict resolution', 7),
-                        _buildTagItem('Decision making', 8),
-                        _buildTagItem('Organizational skills', 9),
+                        _buildTagItem(usuario.SoftSkills.comunicacao, 0),
+                        _buildTagItem(usuario.SoftSkills.lidar, 1),
+                        _buildTagItem(usuario.SoftSkills.trabalhoEquipe, 2),
+                        _buildTagItem(usuario.SoftSkills.resolvedor, 3),
+                        _buildTagItem(usuario.SoftSkills.gerente, 4),
+                        _buildTagItem(usuario.SoftSkills.adaptabilidade, 5),
+                        _buildTagItem(usuario.SoftSkills.criatividade, 6),
+                        _buildTagItem(usuario.SoftSkills.resolConflitos, 7),
+                        _buildTagItem(usuario.SoftSkills.habiOrganiza, 8),
                       ],
                     ),
                   ),
@@ -220,7 +206,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                     child: DragTarget(
                       onAccept: (String data) {
                         setState(() {
-                          _softSkills.add(data);
+                          _habiSelecionadas.add(data);
                         });
                       },
                       builder: (BuildContext context, List<String?> incoming, List<dynamic> rejected) {
@@ -231,15 +217,15 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           child: ListView.builder(
-                            itemCount: _softSkills.length,
+                            itemCount: _habiSelecionadas.length,
                             itemBuilder: (BuildContext context, int index) {
                               return ListTile(
-                                title: Text(_softSkills[index]),
+                                title: Text(_habiSelecionadas[index]),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () {
                                     setState(() {
-                                      _softSkills.removeAt(index);
+                                      _habiSelecionadas.removeAt(index);
                                     });
                                   },
                                 ),
@@ -254,7 +240,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               ),
               const SizedBox(height: 16.0),
               const Text(
-                'Desired Price',
+                'Valor Desejado',
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
               ),
               Row(
@@ -266,13 +252,13 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                   ),
                   Expanded(
                     child: Slider(
-                      value: _desiredPrice,
+                      value: _valorDesejado,
                       min: 50,
                       max: 200,
                       divisions: 30,
                       onChanged: (double value) {
                         setState(() {
-                          _desiredPrice = value;
+                          _valorDesejado = value;
                         });
                       },
                     ),
@@ -287,6 +273,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
+                  // Registrando as ultimas informações do usuário e pulando para a interface principal
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()),);
                 },
                 style: ElevatedButton.styleFrom(
@@ -297,7 +284,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                   ),
                 ),
                 child: const Text(
-                  'Continue',
+                  'Continuar',
                   style: TextStyle(fontSize: 16.0),
                 ),
               ),

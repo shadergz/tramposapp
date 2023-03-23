@@ -2,18 +2,21 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as arquivos;
 
 class DatabaseHelper {
-  static const _databaseName = 'usuarios_banco.db';
-  static const _databaseVersion = 1;
+  static const _arquivoBancoDeDados = 'UsuariosBDados.db';
+  static const _bancoVersao = 1;
 
-  static const table = 'user';
-  static const columnId = '_id';
-  static const columnUsername = 'username';
-  static const columnFirstName = 'first_name';
-  static const columnLastName = 'last_name';
-  static const columnAge = 'age';
-  static const columnOccupation = 'occupation';
-  static const columnEmail = 'email';
-  static const columnPassword = 'password';
+  static const tabelaUsuarios = 'Users';
+  static const usuarioIdColuna = '_id';
+  static const usuarioUsername = 'Username';
+  static const usuarioPrimeiroNome = 'FirstName';
+  static const usuarioSegundoNome = 'LastName';
+  static const usuarioIdade = 'Age';
+  static const usuarioProfissao = 'Occupation';
+  static const usuarioEmail = 'Email';
+  static const usuarioSenha = 'Password';
+
+  static const tabelaLogin = 'Login';
+  static const usuarioAuten = 'SessionId';
 
   // make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -28,37 +31,31 @@ class DatabaseHelper {
     if (_usuariosDB != null) {
       return _usuariosDB!;
     }
-    _usuariosDB = await _initDatabase();
+    _usuariosDB = await _carregarBanco();
     return _usuariosDB!;
   }
 
-  // open the database or create it if it doesn't exist
-  _initDatabase() async {
-    String path = await getDatabasesPath();
-    path = arquivos.join(path, _databaseName);
-    return await openDatabase(path,
-        version: _databaseVersion, onCreate: _onCreate);
+  // Abre ou cria um banco de dados válido caso ainda não exista
+  _carregarBanco() async {
+    String caminhoDoDB = await getDatabasesPath();
+    caminhoDoDB = arquivos.join(caminhoDoDB, _arquivoBancoDeDados);
+    return await openDatabase(caminhoDoDB,
+        version: _bancoVersao, onCreate: _onCreate);
   }
 
-  // SQL code to create the database table
+  // Código SQL para criar o banco de dados com todas as colunas e tabelas necessárias
   Future _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $table (
-        $columnId INTEGER PRIMARY KEY,
-        $columnUsername TEXT NOT NULL,
-        $columnFirstName TEXT NOT NULL,
-        $columnLastName TEXT NOT NULL,
-        $columnAge INTEGER NOT NULL,
-        $columnOccupation TEXT NOT NULL,
-        $columnEmail TEXT NOT NULL,
-        $columnPassword TEXT NOT NULL
+      CREATE TABLE $tabelaUsuarios (
+        $usuarioIdColuna INTEGER PRIMARY KEY,
+        $usuarioUsername TEXT NOT NULL,
+        $usuarioPrimeiroNome TEXT NOT NULL,
+        $usuarioSegundoNome TEXT NOT NULL,
+        $usuarioIdade INTEGER NOT NULL,
+        $usuarioProfissao TEXT NOT NULL,
+        $usuarioEmail TEXT NOT NULL,
+        $usuarioSenha TEXT NOT NULL
       )
       ''');
-  }
-
-  // Insere uma nova linha no nosso banco de dados
-  Future<int> insert(Map<String, dynamic> row) async {
-    Database db = await instance.bancoUsuarios;
-    return await db.insert(table, row);
   }
 }
