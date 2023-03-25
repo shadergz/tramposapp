@@ -6,15 +6,15 @@ import 'package:image_picker/image_picker.dart';
 import 'tela_principal.dart';
 import 'usuario.dart' as usuario;
 
-class ProfileEditingScreen extends StatefulWidget {
-  const ProfileEditingScreen({super.key});
+class TelaEdicaoPerfil extends StatefulWidget {
+  const TelaEdicaoPerfil({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ProfileEditingScreenState createState() => _ProfileEditingScreenState();
+  _TelaEstadoEdicaoPerfil createState() => _TelaEstadoEdicaoPerfil();
 }
 
-class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
+class _TelaEstadoEdicaoPerfil extends State<TelaEdicaoPerfil> {
   // ignore: unused_field
   File? _imagemSele;
   final picker = ImagePicker();
@@ -48,7 +48,7 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
     _valorDesejado = 100;
   }
 
-  Widget _buildTagItem(usuario.SoftSkills tag, int index) {
+  Widget _addNovaTag(usuario.SoftSkills tag, int index) {
   return Draggable(
     data: index,
     feedback: Container(
@@ -189,15 +189,15 @@ class _ProfileEditingScreenState extends State<ProfileEditingScreen> {
                       spacing: 8.0,
                       runSpacing: 8.0,
                       children: [
-                        _buildTagItem(usuario.SoftSkills.comunicacao, 0),
-                        _buildTagItem(usuario.SoftSkills.lidar, 1),
-                        _buildTagItem(usuario.SoftSkills.trabalhoEquipe, 2),
-                        _buildTagItem(usuario.SoftSkills.resolvedor, 3),
-                        _buildTagItem(usuario.SoftSkills.gerente, 4),
-                        _buildTagItem(usuario.SoftSkills.adaptabilidade, 5),
-                        _buildTagItem(usuario.SoftSkills.criatividade, 6),
-                        _buildTagItem(usuario.SoftSkills.resolConflitos, 7),
-                        _buildTagItem(usuario.SoftSkills.habiOrganiza, 8),
+                        _addNovaTag(usuario.SoftSkills.comunicacao, 0),
+                        _addNovaTag(usuario.SoftSkills.lidar, 1),
+                        _addNovaTag(usuario.SoftSkills.trabalhoEquipe, 2),
+                        _addNovaTag(usuario.SoftSkills.resolvedor, 3),
+                        _addNovaTag(usuario.SoftSkills.gerente, 4),
+                        _addNovaTag(usuario.SoftSkills.adaptabilidade, 5),
+                        _addNovaTag(usuario.SoftSkills.criatividade, 6),
+                        _addNovaTag(usuario.SoftSkills.resolConflitos, 7),
+                        _addNovaTag(usuario.SoftSkills.habiOrganiza, 8),
                       ],
                     ),
                   ),

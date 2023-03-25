@@ -1,4 +1,3 @@
-// Define o que é um usuário em nosso sistema
 enum GeneroUsuario {
   mulher, homem, outros
 }
@@ -7,6 +6,7 @@ enum SoftSkills {
   comunicacao, lidar, trabalhoEquipe, resolvedor, gerente, adaptabilidade, criatividade, resolConflitos, habiOrganiza, 
 }
 
+// Define o que é um usuário em nosso sistema
 class TrampoUsuario {
   String username = '', primeiroNome = '', ultimoNome = '', ocupacaoProfissional = '', email = '', senha = '';
   int idadeAtual = 0;

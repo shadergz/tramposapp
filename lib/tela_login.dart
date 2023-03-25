@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'tela_registrar.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class TelaLogin extends StatefulWidget {
+  const TelaLogin({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _LoginPageState createState() => _LoginPageState();
+  _TelaEstadoLogin createState() => _TelaEstadoLogin();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _TelaEstadoLogin extends State<TelaLogin> {
+  final GlobalKey<FormState> _chaveFormal = GlobalKey<FormState>();
   
   // ignore: unused_field
   String _dadoUsername = '', _dadoSenha = '';
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 80.0),
           child: Form(
-            key: _formKey,
+            key: _chaveFormal,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -71,10 +71,10 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () {
-                        if (!_formKey.currentState!.validate()) {
+                        if (!_chaveFormal.currentState!.validate()) {
                           return;
                         }
-                        _formKey.currentState!.save();
+                        _chaveFormal.currentState!.save();
                       },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white, backgroundColor: Colors.blue,
@@ -90,11 +90,11 @@ class _LoginPageState extends State<LoginPage> {
                         foregroundColor: Colors.white, backgroundColor: Colors.green,
                       ),
                       onPressed: () {
-                        if (!_formKey.currentState!.validate()) {
+                        if (!_chaveFormal.currentState!.validate()) {
                           return;
                         }
-                        _formKey.currentState?.save();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const RegistrationPage()),
+                        _chaveFormal.currentState?.save();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaRegistrar()),
                         );
                       },
                       child: const Text(

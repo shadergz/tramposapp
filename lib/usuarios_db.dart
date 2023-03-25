@@ -18,11 +18,10 @@ class DatabaseHelper {
   static const tabelaLogin = 'Login';
   static const usuarioAuten = 'SessionId';
 
-  // make this a singleton class
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
-  // only have a single app-wide reference to the database
+  // Apenas uma instância do banco de dados deve existir em todo o nosso app
   static Database? _usuariosDB;
 
   // Abrindo nosso banco de dados em uma nova thread, a performance não será impactada

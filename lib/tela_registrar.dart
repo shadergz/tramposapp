@@ -4,16 +4,16 @@ import 'usuario.dart' as usuario;
 
 import 'tela_criarperfil.dart' as criar;
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key});
+class TelaRegistrar extends StatefulWidget {
+  const TelaRegistrar({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _RegistrationPageState createState() => _RegistrationPageState();
+  _TelaEstadoRegistrar createState() => _TelaEstadoRegistrar();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _TelaEstadoRegistrar extends State<TelaRegistrar> {
+  final GlobalKey<FormState> _chaveFormal = GlobalKey<FormState>();
   String dadoUsername = '', _dadoPrimeiroNome = '', _dadoUltimoNome = '', _dadoOcupacao = '', _dadoEmail = '', _dadoSenha = '';
   int _dadoIdade = 0;
 
@@ -155,7 +155,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
+          key: _chaveFormal,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -174,10 +174,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ElevatedButton(
                   child: const Text('Registrar'),
                   onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
+                    if (!_chaveFormal.currentState!.validate()) {
                       return;
                     }
-                    _formKey.currentState!.save();
+                    _chaveFormal.currentState!.save();
                     // Salvando as informações fornecidas pelo novo usuário
                     // Inserindo as informações do usuário dentro do banco de usuarios
 
@@ -192,7 +192,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                     // Levando o usuário à tela de edição do perfil!
                     // Está função descarta todas as outras interfaces (telas)
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const criar.ProfileEditingScreen()), );   
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const criar.TelaEdicaoPerfil()), );   
                   },
                 ),
               ],

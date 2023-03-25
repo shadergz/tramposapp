@@ -37,7 +37,7 @@ class _TrampoTelaVerificacao extends State<TramposTelaRaiz> {
     return MaterialApp(
       title: 'TramposOn',
       // Seleciona se o usuário deva ir para a tela de login ou para a tela principal
-      home: usuarioLogado ? const principal.MainScreen() : const login.LoginPage(),
+      home: usuarioLogado ? const principal.MainScreen() : const login.TelaLogin(),
       theme: ThemeData(
       ),
     );

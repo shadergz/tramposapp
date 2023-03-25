@@ -76,7 +76,7 @@ Color pegarCorValor(int price) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const pesquisar.SearchScreen(),
+                  builder: (context) => const pesquisar.TelaPesquisa(),
                 ),
               );
             },
